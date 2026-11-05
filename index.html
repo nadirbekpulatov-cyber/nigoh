@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0F1A2B">
+<meta name="color-scheme" content="light">
+<title>Взгляд — игры для айтрекера</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/app.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230F1A2B'/%3E%3Ccircle cx='50' cy='54' r='22' fill='%23FFC83D'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="top">
+  <div class="top__inner">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <h1 data-t="title">Взгляд</h1>
+    </div>
+    <div class="seg seg--dark" data-seg="lang" role="group" aria-label="Язык">
+      <button value="ru">RU</button><button value="uz">UZ</button>
+    </div>
+  </div>
+</header>
+
+<main class="panel">
+  <p class="lead" data-t="lead"></p>
+
+  <section class="block block--ladder" aria-labelledby="h-ladder">
+    <h2 id="h-ladder" data-t="ladder"></h2>
+    <ol class="ladder" id="ladder"></ol>
+    <div class="play-row">
+      <button class="btn-play" id="play" data-t="play">Играть</button>
+      <p class="note" data-t="ladder_note"></p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-set">
+    <h2 id="h-set" data-t="settings"></h2>
+    <div class="settings">
+      <div class="field">
+        <span class="field__label" data-t="size"></span>
+        <div class="seg" data-seg="size" role="group">
+          <button value="S" data-t="size_S"></button><button value="M" data-t="size_M"></button><button value="L" data-t="size_L"></button><button value="XL" data-t="size_XL"></button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field__label" data-t="dwell"></span>
+        <div class="seg" data-seg="dwellMs" role="group">
+          <button value="800">0,8</button><button value="1200">1,2</button><button value="2000">2</button><button value="3000">3</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field__label" data-t="sound"></span>
+        <div class="seg" data-seg="sound" role="group">
+          <button value="true" data-t="on"></button><button value="false" data-t="off"></button>
+        </div>
+        <p class="note" id="voice-note" data-t="no_voice" hidden></p>
+      </div>
+      <div class="field">
+        <span class="field__label" data-t="gaze"></span>
+        <div class="seg" data-seg="showGaze" role="group">
+          <button value="true" data-t="on"></button><button value="false" data-t="off"></button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field__label" data-t="tap"></span>
+        <div class="seg" data-seg="tapSelects" role="group">
+          <button value="true" data-t="on"></button><button value="false" data-t="off"></button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field__label" data-t="input"></span>
+        <div class="seg" data-seg="input" role="group">
+          <button value="pointer" data-t="input_pointer"></button><button value="camera" data-t="input_camera"></button>
+        </div>
+        <p class="note" id="input-note" data-t="input_note" hidden></p>
+      </div>
+      <div class="field" id="diag-field" hidden>
+        <span class="field__label" data-t="cam_diag"></span>
+        <div class="seg" data-seg="camDiag" role="group">
+          <button value="true" data-t="on"></button><button value="false" data-t="off"></button>
+        </div>
+        <p class="note" data-t="cam_diag_note"></p>
+      </div>
+      <div class="field">
+        <label class="field__label" for="learner" data-t="learner"></label>
+        <input id="learner" class="input" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <p class="note" data-t="learner_hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="h-journal">
+    <h2 id="h-journal" data-t="journal"></h2>
+    <p class="empty" id="journal-empty" data-t="journal_empty"></p>
+    <div class="table-wrap">
+      <table id="journal-table" hidden>
+        <thead><tr>
+          <th data-t="col_when"></th><th data-t="col_who"></th><th data-t="col_game"></th>
+          <th data-t="col_n"></th><th data-t="col_time"></th><th data-t="col_acc"></th>
+        </tr></thead>
+        <tbody id="journal-body"></tbody>
+      </table>
+    </div>
+    <button class="btn" id="download" data-t="download"></button>
+  </section>
+</main>
+
+<div class="stage" id="stage" hidden>
+  <div class="dots" id="dots" aria-hidden="true"></div>
+  <div class="gaze" id="gaze" aria-hidden="true"></div>
+  <button class="exit" id="exit" aria-label="Выход" data-t-title="exit_hint"><span aria-hidden="true"></span></button>
+  <p class="campose" id="cam-pose" data-t="cam_pose" hidden></p>
+  <div class="camdiag" id="cam-diag" hidden>
+    <pre class="camdiag__text" id="cam-diag-text"></pre>
+    <canvas class="camdiag__trace" id="cam-diag-trace" width="160" height="100" aria-hidden="true"></canvas>
+    <button class="btn camdiag__btn" id="cam-diag-rec" data-t="cam_rec"></button>
+  </div>
+  <div class="camsetup" id="camsetup" hidden>
+    <div class="camsetup__card">
+      <h2 data-t="cam_title"></h2>
+      <div class="camsetup__view" id="cam-view"></div>
+      <p class="camsetup__status" id="cam-status" aria-live="polite"></p>
+      <p class="camsetup__hint" id="cam-hint" data-t="cam_hint"></p>
+      <div class="camsetup__row">
+        <button class="btn-play" id="cam-go" data-t="cam_start"></button>
+        <button class="btn" id="cam-skip" data-t="cam_skip" hidden></button>
+        <button class="btn" id="cam-cancel" data-t="cam_cancel"></button>
+      </div>
+      <p class="camsetup__note" data-t="cam_note"></p>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

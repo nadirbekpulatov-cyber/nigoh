@@ -1,0 +1,3 @@
+MediaPipe Tasks Vision 0.10.35 (@mediapipe/tasks-vision, npm) и модель face_landmarker.task (float16/1).
+Лицензия Apache-2.0, © Google LLC. Скачано 07.11.2026 с cdn.jsdelivr.net и storage.googleapis.com без изменений,
+чтобы игра работала без интернета. Обновлять вместе с версией в js/camera.js.

@@ -1,0 +1,26 @@
+{
+ "ru": {
+  "hello": "hello.mp3",
+  "firefly": "firefly.mp3",
+  "drum": "drum.mp3",
+  "drum_hold": "drum_hold.mp3",
+  "where_sun": "where_sun.mp3",
+  "where_fish": "where_fish.mp3",
+  "where_ball": "where_ball.mp3",
+  "praise": "praise.mp3",
+  "again": "again.mp3",
+  "done": "done.mp3"
+ },
+ "uz": {
+  "hello": "hello.mp3",
+  "firefly": "firefly.mp3",
+  "drum": "drum.mp3",
+  "drum_hold": "drum_hold.mp3",
+  "where_sun": "where_sun.mp3",
+  "where_fish": "where_fish.mp3",
+  "where_ball": "where_ball.mp3",
+  "praise": "praise.mp3",
+  "again": "again.mp3",
+  "done": "done.mp3"
+ }
+}
