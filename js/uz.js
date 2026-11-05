@@ -34,6 +34,7 @@ export const UI_UZ = {
   journal: 'Mashgʻulotlar jurnali',
   journal_empty: 'Hali mashgʻulot boʻlmagan. Birinchi bosqichni oʻynang — bu yerda tanlashgacha boʻlgan vaqt va aniqlik paydo boʻladi.',
   download: 'Jurnalni yuklab olish',
+  offline_ready: 'Internetsiz ishlashga tayyor',
   col_when: 'Qachon', col_who: 'Kod', col_game: 'Bosqich', col_n: 'Urinishlar', col_time: 'Tanlashgacha vaqt', col_acc: 'Aniqlik',
   sec: 's',
   exit_hint: 'Chiqish: burchakni 1 soniya bosib turing yoki Esc tugmasini bosing',

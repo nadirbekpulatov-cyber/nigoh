@@ -438,10 +438,24 @@ await V.loadManifest();
 renderPanel();
 requestAnimationFrame(frame);
 
+// Офлайн (sw.js): когда всё нужное лежит в кэше — тихая подпись взрослому.
+const offline = { ready: false, version: null };
+async function checkOffline() {
+  const reg = await navigator.serviceWorker.ready;
+  const ch = new MessageChannel();
+  const st = await new Promise((res) => { ch.port1.onmessage = (e) => res(e.data); reg.active.postMessage({ type: 'status' }, [ch.port2]); });
+  Object.assign(offline, { ready: st.offline, version: st.version });
+  $('#offline-note').hidden = !st.offline;
+}
+if ('serviceWorker' in navigator && isSecureContext) {
+  navigator.serviceWorker.register('sw.js').then(checkOffline).catch(() => {});
+  navigator.serviceWorker.addEventListener('controllerchange', () => checkOffline().catch(() => {}));
+}
+
 // Для тестов и учителя: состояние без DOM-разбора.
 window.__app = {
   get playing() { return Boolean(game); },
   get session() { return session; },
   select: (n) => { selected = n; renderPanel(); },
-  play, exit: exitGame, settings, cam,
+  play, exit: exitGame, settings, cam, offline,
 };

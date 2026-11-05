@@ -303,3 +303,7 @@ td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); white-spac
   .drum.is-beat > svg:not(.ring), .ripple { animation: none; }
   .obj, .obj.is-in { transform: none; }
 }
+
+/* Тихая подпись под журналом: кэш собран, игра откроется без сети */
+.offline-note { margin: 8px 0 0; padding-top: 20px; border-top: 1px solid var(--line); max-width: none; }
+.offline-note::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--leaf, #52D69A); vertical-align: 1px; }
