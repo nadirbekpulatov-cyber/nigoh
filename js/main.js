@@ -15,7 +15,7 @@ const STEPS = [
   { n: 2, key: 's2', game: 's2g', id: 'g2-drum', make: (c) => drum(c, { mode: 'cause' }), icon: 'drum' },
   { n: 3, key: 's3', game: 's3g', id: 'g2-drum', make: (c) => drum(c, { mode: 'hold' }), icon: 'drum' },
   { n: 4, key: 's4', game: 's4g', id: 'g3-where', make: (c) => where(c), icon: 'where' },
-  { n: 5, key: 's5' },
+  { n: 5, key: 's5', game: 's5g', id: 'g3-where-3', make: (c) => where(c, { choices: 3 }), icon: 'where' },
   { n: 6, key: 's6' },
 ];
 
@@ -391,14 +391,21 @@ function bindExit() {
     timer = setTimeout(() => { cancel(); exitGame(); }, 1000);
   });
   ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => btn.addEventListener(ev, cancel));
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && (game || setupCancel)) exitGame(); });
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && (game || setupCancel)) exitGame();
+    // Взрослый или кнопка-переключатель: пробел/Enter = «выбрать то, на что смотрит ребёнок».
+    if (game && (e.key === ' ' || e.key === 'Enter') && !e.repeat && settings.tapSelects && hub.point) {
+      e.preventDefault();
+      if (dwell.tap(hub.point.x, hub.point.y)) lastActive = performance.now();
+    }
+  });
 }
 
 // Вкладка скрыта — пауза. Потерю фокуса окна паузой не считаем: программа
 // трекера или клик учителя по другому окну забирают фокус, а ребёнок играет дальше.
 function bindPause() {
   const set = (p) => { dwell.paused = p; stage.classList.toggle('is-paused', p && !!game); };
-  document.addEventListener('visibilitychange', () => set(document.hidden));
+  document.addEventListener('visibilitychange', () => { set(document.hidden); if (document.hidden) V.stopVoice(); });
 }
 
 // ——— цикл ———

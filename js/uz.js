@@ -22,7 +22,7 @@ export const UI_UZ = {
   s2: 'Sabab va natija', s2g: 'Nogʻora',
   s3: 'Nigohni tutib turish', s3g: 'Nogʻora, tutib turish',
   s4: 'Ikkitadan tanlash', s4g: 'Qani?',
-  s5: 'Bir nechtadan tanlash', s6: 'Oʻquv topshiriqlari',
+  s5: 'Bir nechtadan tanlash', s5g: 'Qani? Uchtadan', s6: 'Oʻquv topshiriqlari',
   settings: 'Bolaga moslash sozlamalari',
   size: 'Nishon oʻlchami', size_S: 'Kichik', size_M: 'Oʻrta', size_L: 'Katta', size_XL: 'Juda katta',
   dwell: 'Tanlashdan oldin qancha qarash kerak',

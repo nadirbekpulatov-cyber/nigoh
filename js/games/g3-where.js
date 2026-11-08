@@ -1,10 +1,12 @@
-// G3 «Где?» — ступень 4, выбор из двух. Голос называет картинку, ребёнок выбирает
-// взглядом. Ошибка без наказания: картинка тихо качнётся, вопрос повторится.
+// G3 «Где?» — ступени 4 и 5, выбор из двух и из нескольких. Голос называет картинку,
+// ребёнок выбирает взглядом. Ошибка без наказания: картинка тихо качнётся, вопрос повторится.
+// Вариантов не больше, чем картинок с записанным голосом (сейчас три).
 import { ITEMS, bloom } from '../art.js';
 
 const KEYS = Object.keys(ITEMS);
 
-export default function where(ctx) {
+export default function where(ctx, { choices = 2 } = {}) {
+  const COUNT = Math.max(2, Math.min(choices, KEYS.length));
   const TOTAL = 10;
   let n = 0, shownAt = 0, firstTry = true, answer = null, lastAnswer = null;
   let pair = [];
@@ -15,15 +17,19 @@ export default function where(ctx) {
     const pool = KEYS.filter((k) => k !== lastAnswer);
     answer = pool[Math.floor(Math.random() * pool.length)];
     lastAnswer = answer;
-    const other = KEYS.filter((k) => k !== answer)[Math.floor(Math.random() * (KEYS.length - 1))];
-    const order = Math.random() < 0.5 ? [answer, other] : [other, answer];
-    // Две цели по сторонам; на узком экране — одна над другой.
-    const s = Math.min(ctx.size(), innerWidth * 0.4, innerHeight * 0.42);
+    const others = KEYS.filter((k) => k !== answer).sort(() => Math.random() - 0.5).slice(0, COUNT - 1);
+    // Ответ не всегда на одном и том же месте.
+    const order = others.slice();
+    order.splice(Math.floor(Math.random() * (COUNT)), 0, answer);
     const wide = innerWidth >= innerHeight * 0.9;
+    // Цели по сторонам; на узком экране — одна над другой.
+    const s = Math.min(ctx.size(), wide ? innerWidth * (COUNT > 2 ? 0.27 : 0.4) : innerWidth * 0.4,
+      wide ? innerHeight * 0.42 : innerHeight * (COUNT > 2 ? 0.26 : 0.42));
+    const at = (i) => (COUNT === 2 ? (i ? 0.73 : 0.27) : 0.17 + (0.66 * i) / (COUNT - 1));
     pair = order.map((key, i) => {
       const pos = wide
-        ? { x: innerWidth * (i ? 0.73 : 0.27), y: innerHeight * 0.5 }
-        : { x: innerWidth / 2, y: innerHeight * (i ? 0.72 : 0.3) };
+        ? { x: innerWidth * at(i), y: innerHeight * 0.5 }
+        : { x: innerWidth / 2, y: innerHeight * (COUNT === 2 ? (i ? 0.72 : 0.3) : 0.2 + (0.6 * i) / (COUNT - 1)) };
       const el = ctx.object(`obj item item--${key}`, ITEMS[key], s, pos);
       const t = ctx.dwell.add({ el, dwellMs: () => ctx.settings.dwellMs, onSelect: (e) => choose(key, el, e) });
       return { key, el, t };

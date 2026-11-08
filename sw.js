@@ -2,7 +2,7 @@
 // Два кэша: оболочка (код, звук, иконки) меняется с каждой выкладкой — поднимать SHELL;
 // MediaPipe (~26 МБ) меняется редко — свой кэш по версии библиотеки, чтобы при обновлении
 // игры не качать его заново. Пути относительные: сайт живёт под /nigoh/ на GitHub Pages.
-const SHELL = 'nigoh-shell-v1';
+const SHELL = 'nigoh-shell-v2';
 const MP = 'nigoh-mp-0.10.35';
 const FONTS = 'nigoh-fonts';
 

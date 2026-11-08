@@ -5,6 +5,10 @@ import { prompt } from './i18n.js';
 let manifest = null;
 let ctx = null;
 let current = null;
+// Один общий <audio>: iPhone разрешает звук только элементу, который запустили по жесту.
+// Новый Audio() посреди игры молчит, поэтому «открываем» элемент на кнопке «Играть» и дальше меняем src.
+let player = null;
+const SILENCE = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=';
 
 export async function loadManifest() {
   try { manifest = await (await fetch('audio/manifest.json', { cache: 'no-cache' })).json(); }
@@ -18,6 +22,12 @@ export function unlock() {
     if (AC) ctx = new AC();
   }
   ctx?.resume?.();
+  if (!player) {
+    player = new Audio();
+    player.preload = 'auto';
+    player.src = SILENCE;
+    player.play().then(() => player.pause()).catch(() => {});
+  }
 }
 
 export function stopVoice() {
@@ -30,7 +40,9 @@ export function say(key, settings) {
   stopVoice();
   const file = manifest?.[settings.lang]?.[key];
   if (file) {
-    const a = new Audio(`audio/${settings.lang}/${file}`);
+    const a = player || new Audio();
+    a.src = `audio/${settings.lang}/${file}`;
+    a.currentTime = 0;
     a.volume = 0.9;
     current = a;
     a.play().catch(() => speak(key, settings));
